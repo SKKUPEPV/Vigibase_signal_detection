@@ -22,12 +22,6 @@ data study_drug;
 		  or substance_name contains "axitinib" or substance_name contains "Sunitinib"
 		  or substance_name contains "sunitinib" or substance_name contains "Doxorubicin"
 		  or substance_name contains "doxorubicin";
-   			/*pemetrexed+carboplatin*/
-   			/*pemetrexed+cisplatin*/ 
-   			/*gemcitabine+cisplatin*/
-  			 /*gemcitabine+carboplatin*/
-  			 /*paclitaxel+carboplatin*/
-  			 /*nab-paclitaxel+carboplatin*/
 run;
 
 proc sql;
