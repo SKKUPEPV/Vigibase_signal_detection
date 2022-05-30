@@ -1,8 +1,8 @@
-/* ¿¬±¸¾à¹°, ´ëÁ¶¾à¹° Ã£±â*/
+/* ì—°êµ¬ì•½ë¬¼, ëŒ€ì¡°ì•½ë¬¼ ì°¾ê¸°*/
 
 data study_drug;
 	set who.substance;
-	/*¿¬±¸¿¡ ¸Â´Â ¾à¹°¼ººĞ È®ÀÎ*/
+	/*ì—°êµ¬ì— ë§ëŠ” ì•½ë¬¼ì„±ë¶„ í™•ì¸*/
 	where substance_name contains "Pembrolizumab" or substance_name contains "pembrolizumab"
 		  or substance_name contains "Ipilimumab" or substance_name contains "ipilimumab"
 		  or substance_name contains"Dacarbazine" or substance_name contains "dacarbazine"
@@ -57,7 +57,7 @@ quit;
 /* adjusted ROR_preprocessing*/
 data drug;
 	set main.drug;
-	if basis in ("2","-") then delete; /*º´¿ë, °áÃøÄ¡ Á¦°Å*/
+	if basis in ("2","-") then delete; /*ë³‘ìš©, ê²°ì¸¡ì¹˜ ì œê±°*/
 	if drecno in ("999997", "999998", "999999") then delete; 
 	/*999997 Investigational products
 	   999998 Not identified in WHODD
@@ -81,9 +81,9 @@ run;
 data adr;
 	set main.adr;
 
-	if meddra_id = "0" then delete; /*ÀÌ»ó¹İÀÀ¸í °áÃøÄ¡*/
+	if meddra_id = "0" then delete; /*ì´ìƒë°˜ì‘ëª… ê²°ì¸¡ì¹˜*/
 
-	/*°á°ú ¼ıÀÚÇü*/
+	/*ê²°ê³¼ ìˆ«ìí˜•*/
 	if outcome = "-" then outcome = 0;
 	outcome_num = outcome * 1;
 
@@ -99,7 +99,7 @@ quit;
 data link;
 	set main.link;
 
-	/*ÀÌ»ó¹İÀÀ¹ßÇöÀÌ ÀÇ½É¾à¹°Åõ¿©º¸´Ù ºü¸¥ °æ¿ì Á¦°Å*/
+	/*ì´ìƒë°˜ì‘ë°œí˜„ì´ ì˜ì‹¬ì•½ë¬¼íˆ¬ì—¬ë³´ë‹¤ ë¹ ë¥¸ ê²½ìš° ì œê±°*/
 	if TimeToOnsetMin in (" ", "-") then tto_min = .;
 	else tto_min = TimeToOnsetMin;
 	if TimeToOnsetMax in (" ", "-") then tto_max = .;
@@ -115,18 +115,18 @@ data link;
 	drop tto_min tto_max TimeToOnsetMin TimeToOnsetMax;
 
 
-	if dechallenge1 in ("-", " ") then dechallenge1 = 5;/*5´Â ¾à¹°Á¶Ä¡ °áÃøÄ¡*/
-	if dechallenge2 in ("-", " ") then dechallenge2 = 5;/*5´Â ¾à¹°Á¶Ä¡¿¡ ´ëÇÑ °á°ú °áÃøÄ¡*/
-	if rechallenge1 in ("-", " ") then rechallenge1 = 4;/*4´Â ÀçÅõ¿©¿©ºÎ¿¡ ´ëÇÑ °áÃøÄ¡*/
-	if rechallenge2 in ("-", " ") then rechallenge2 = 3;/*3Àº ÀçÅõ¿©½Ã °á°ú °áÃøÄ¡*/
+	if dechallenge1 in ("-", " ") then dechallenge1 = 5;/*5ëŠ” ì•½ë¬¼ì¡°ì¹˜ ê²°ì¸¡ì¹˜*/
+	if dechallenge2 in ("-", " ") then dechallenge2 = 5;/*5ëŠ” ì•½ë¬¼ì¡°ì¹˜ì— ëŒ€í•œ ê²°ê³¼ ê²°ì¸¡ì¹˜*/
+	if rechallenge1 in ("-", " ") then rechallenge1 = 4;/*4ëŠ” ì¬íˆ¬ì—¬ì—¬ë¶€ì— ëŒ€í•œ ê²°ì¸¡ì¹˜*/
+	if rechallenge2 in ("-", " ") then rechallenge2 = 3;/*3ì€ ì¬íˆ¬ì—¬ì‹œ ê²°ê³¼ ê²°ì¸¡ì¹˜*/
 
-	/*¾à¹°Á¶Ä¡ ¼ıÀÚÇü*/
+	/*ì•½ë¬¼ì¡°ì¹˜ ìˆ«ìí˜•*/
 	dechallenge1_number = dechallenge1*1;
-	/*¾à¹°Á¶Ä¡¿¡ ´ëÇÑ °á°ú ¼ıÀÚÇü*/
+	/*ì•½ë¬¼ì¡°ì¹˜ì— ëŒ€í•œ ê²°ê³¼ ìˆ«ìí˜•*/
 	dechallenge2_number = dechallenge2*1;
-	/*ÀçÅõ¿©¿©ºÎ ¼ıÀÚÇü*/
+	/*ì¬íˆ¬ì—¬ì—¬ë¶€ ìˆ«ìí˜•*/
 	rechallenge1_number = rechallenge1*1;
-	/*ÀçÅõ¿©½Ã °á°ú ¼ıÀÚÇü ¾à¹°Á¶Ä¡¿¡ ´ëÇÑ °á°ú ¼ıÀÚÇü*/
+	/*ì¬íˆ¬ì—¬ì‹œ ê²°ê³¼ ìˆ«ìí˜• ì•½ë¬¼ì¡°ì¹˜ì— ëŒ€í•œ ê²°ê³¼ ìˆ«ìí˜•*/
 	rechallenge2_number = rechallenge2*1;
 
 	drop dechallenge1 dechallenge2 rechallenge1 rechallenge2;
@@ -170,21 +170,21 @@ quit;
 data base2;
 	set base1;
 
-	/*¿¬·É±º ¼ıÀÚº¯¼ö*/
+	/*ì—°ë ¹êµ° ìˆ«ìë³€ìˆ˜*/
 	agg = agegroup*1; 
 
-	 /*¼ºº° ¼ıÀÚº¯¼ö*/
-	if gender in ("-", "9") then sex = 0; /*0 = ¼ºº° °áÃøÄ¡*/
+	 /*ì„±ë³„ ìˆ«ìë³€ìˆ˜*/
+	if gender in ("-", "9") then sex = 0; /*0 = ì„±ë³„ ê²°ì¸¡ì¹˜*/
 	else sex = gender*1; 
 
-	/*º¸°í¼­À¯Çü ¼ıÀÚº¯¼ö*/
-	if type = "-" then report_type = 4; /*4 = º¸°í¼­À¯Çü °áÃøÄ¡*/
+	/*ë³´ê³ ì„œìœ í˜• ìˆ«ìë³€ìˆ˜*/
+	if type = "-" then report_type = 4; /*4 = ë³´ê³ ì„œìœ í˜• ê²°ì¸¡ì¹˜*/
 	else report_type = type*1;
 
-	/*Áö¿ª ¼ıÀÚº¯¼ö*/
+	/*ì§€ì—­ ìˆ«ìë³€ìˆ˜*/
 	region_num = region*1; 
 
-	/*º¸°í¼­ º¸°í³âµµ¼ö*/
+	/*ë³´ê³ ì„œ ë³´ê³ ë…„ë„ìˆ˜*/
 	calendar_year = substr(firstdatedatabase,1,4)*1;
 
 	drop agegroup -- firstdatedatabase;
@@ -193,8 +193,8 @@ run;
 data srce;
 	set main.srce;
 
-	/*º¸°íÀÚ ¼ıÀÚº¯¼ö*/
-	if type = " " then notifier = 0;/*0 = º¸°íÀÚ °áÃøÄ¡*/
+	/*ë³´ê³ ì ìˆ«ìë³€ìˆ˜*/
+	if type = " " then notifier = 0;/*0 = ë³´ê³ ì ê²°ì¸¡ì¹˜*/
 	else notifier = type*1;
 
 run;
@@ -213,12 +213,12 @@ run;
 data out;
 	set main.out;
 
-	/*Áß´ëÇÑÀÌ»ó¹İÀÀ ¼ıÀÚº¯¼ö*/
+	/*ì¤‘ëŒ€í•œì´ìƒë°˜ì‘ ìˆ«ìë³€ìˆ˜*/
 	if serious = "N" then SAE = 0;
 	else if serious = "Y" then SAE = 1;
-    else SAE = 2; /*2´Â °áÃøÄ¡*/
+    else SAE = 2; /*2ëŠ” ê²°ì¸¡ì¹˜*/
 
-	/*Áß´ëÇÑÀÌ»ó¹İÀÀÁ¾·ù ¼ıÀÚº¯¼ö*/
+	/*ì¤‘ëŒ€í•œì´ìƒë°˜ì‘ì¢…ë¥˜ ìˆ«ìë³€ìˆ˜*/
 	if seriousness = "-" then seriousness_num = 0;
 	else seriousness_num = seriousness*1;
 
@@ -260,7 +260,7 @@ data bb.final;
 	retain drecno drug pt_code;
 	set bb.base6;
 
-	/*°áÃøÄ¡ Ã³¸®*/
+	/*ê²°ì¸¡ì¹˜ ì²˜ë¦¬*/
 	if notifier =. then notifier = 0;
 	if SAE =. then SAE=2;
 	if seriousness_num =. then seriousness_num=0;
@@ -270,7 +270,7 @@ run;
 
 
 
-/* adjusted ROR »êÃâ ¸ÅÅ©·Î*/
+/* adjusted ROR ì‚°ì¶œ ë§¤í¬ë¡œ*/
 %macro ROR;
 
 data target_ae_list;
@@ -290,8 +290,8 @@ data ROR_&integer.;
 	proc logistic data=ROR_&integer. desc;
 		class drug(ref='0');
 		model target= drug agg sex report_type region_num calendar_year notifier SAE 
-						      seriousness_num outcome_num dechallenge1_number dechallenge2_number
-							  rechallenge1_number rechallenge2_number;/*table1¿¡ ÀÖ´Â °øº¯·® ´Ù¶§·Á³ÖÀ½*/
+			      seriousness_num outcome_num dechallenge1_number dechallenge2_number
+			      rechallenge1_number rechallenge2_number;/*ë…¸ì¶œ ë° ë³´ì •ë³€ìˆ˜ ì¶”ê°€*/
 	run; 
 
 
